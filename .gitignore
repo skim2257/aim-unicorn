@@ -4,3 +4,5 @@ code/correlate.py
 spec_file_root.txt
 *.torch
 .env
+
+*/__pycache__

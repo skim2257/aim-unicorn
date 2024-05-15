@@ -26,8 +26,8 @@ def find_centroid(mask: sitk.Image) -> np.ndarray:
     stats = sitk.LabelShapeStatisticsImageFilter()
     stats.Execute(mask_uint)
     centroid_coords = stats.GetCentroid(1)
-    centroid_idx = mask.TransformPhysicalPointToIndex(centroid_coords)
-    return np.asarray(centroid_idx, dtype=np.float32)
+    # centroid_idx = mask.TransformPhysicalPointToIndex(centroid_coords)
+    return np.asarray(centroid_coords, dtype=np.float32)
 
 
 def get_row(row, input_path):
@@ -38,7 +38,6 @@ def get_row(row, input_path):
         mask = sitk.ReadImage(mask_path)
         centroid = find_centroid(mask)
         
-
         # return row
         return ct_path, centroid[0], centroid[1], centroid[2]
     return

@@ -4,5 +4,6 @@ code/correlate.py
 spec_file_root.txt
 *.torch
 .env
+.pixi/
 
 */__pycache__

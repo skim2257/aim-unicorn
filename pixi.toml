@@ -1,0 +1,200 @@
+[project]
+name = "fmcib"
+version = "0.1.0"
+description = "Add a short description here"
+authors = ["skim2257 <hello@sejin.kim>"]
+channels = ["main", "r", "msys2"]
+platforms = ["linux-64"]
+
+[system-requirements]
+linux="3.10.0"
+
+[tasks]
+
+[dependencies]
+
+[target.linux-64.dependencies]
+_libgcc_mutex = { version = "==0.1", build = "main" }
+_openmp_mutex = { version = "==5.1", build = "1_gnu" }
+bzip2 = { version = "==1.0.8", build = "h5eee18b_5" }
+ca-certificates = { version = "==2024.3.11", build = "h06a4308_0" }
+ld_impl_linux-64 = { version = "==2.38", build = "h1181459_1" }
+libffi = { version = "==3.4.4", build = "h6a678d5_0" }
+libgcc-ng = { version = "==11.2.0", build = "h1234567_1" }
+libgomp = { version = "==11.2.0", build = "h1234567_1" }
+libstdcxx-ng = { version = "==11.2.0", build = "h1234567_1" }
+libuuid = { version = "==1.41.5", build = "h5eee18b_0" }
+ncurses = { version = "==6.4", build = "h6a678d5_0" }
+openssl = { version = "==3.0.13", build = "h7f8727e_0" }
+python = { version = "==3.10.14", build = "h955ad1f_0" }
+readline = { version = "==8.2", build = "h5eee18b_0" }
+setuptools = { version = "==68.2.2", build = "py310h06a4308_0" }
+sqlite = { version = "==3.41.2", build = "h5eee18b_0" }
+tk = { version = "==8.6.12", build = "h1ccaba5_0" }
+tzdata = { version = "==2024a", build = "h04d1e81_0" }
+wheel = { version = "==0.41.2", build = "py310h06a4308_0" }
+xz = { version = "==5.4.6", build = "h5eee18b_0" }
+zlib = { version = "==1.2.13", build = "h5eee18b_0" }
+
+[target.linux-64.pypi-dependencies]
+absl-py = { version = "==2.1.0" }
+aenum = { version = "==3.1.15" }
+aiohttp = { version = "==3.9.5" }
+aiosignal = { version = "==1.3.1" }
+antlr4-python3-runtime = { version = "==4.9.3" }
+appdirs = { version = "==1.4.4" }
+asttokens = { version = "==2.4.1" }
+async-timeout = { version = "==4.0.3" }
+attrs = { version = "==23.2.0" }
+cachetools = { version = "==5.3.3" }
+certifi = { version = "==2024.2.2" }
+charset-normalizer = { version = "==3.3.2" }
+cleo = { version = "==2.1.0" }
+click = { version = "==8.1.7" }
+comm = { version = "==0.2.2" }
+contourpy = { version = "==1.2.1" }
+crashtest = { version = "==0.4.1" }
+cycler = { version = "==0.12.1" }
+dataclasses = { version = "==0.6" }
+dcmrtstruct2nii = { version = "==5" }
+decorator = { version = "==5.1.1" }
+dill = { version = "==0.3.8" }
+docker-pycreds = { version = "==0.4.0" }
+exceptiongroup = { version = "==1.2.0" }
+executing = { version = "==2.0.1" }
+filelock = { version = "==3.13.4" }
+fire = { version = "==0.5.0" }
+fonttools = { version = "==4.51.0" }
+foundation-cancer-image-biomarker = { version = "==1.0.0" }
+frozenlist = { version = "==1.4.1" }
+fsspec = { version = "==2024.3.1" }
+gitdb = { version = "==4.0.11" }
+gitpython = { version = "==3.1.43" }
+google-api-core = { version = "==2.18.0" }
+google-auth = { version = "==2.29.0" }
+google-cloud-core = { version = "==2.4.1" }
+google-cloud-storage = { version = "==2.16.0" }
+google-crc32c = { version = "==1.5.0" }
+google-resumable-media = { version = "==2.7.0" }
+googleapis-common-protos = { version = "==1.63.0" }
+grpcio = { version = "==1.63.0rc1" }
+h5py = { version = "==3.11.0" }
+hydra-core = { version = "==1.3.2" }
+idna = { version = "==3.7" }
+imageio = { version = "==2.34.0" }
+ipython = { version = "==8.23.0" }
+ipywidgets = { version = "==8.1.2" }
+itk = { version = "==5.4rc3" }
+itk-core = { version = "==5.4rc3" }
+itk-filtering = { version = "==5.4rc3" }
+itk-io = { version = "==5.4rc3" }
+itk-numerics = { version = "==5.4rc3" }
+itk-registration = { version = "==5.4rc3" }
+itk-segmentation = { version = "==5.4rc3" }
+jedi = { version = "==0.19.1" }
+jinja2 = { version = "==3.1.3" }
+joblib = { version = "==1.4.2" }
+jsonschema = { version = "==3.2.0" }
+jupyterlab-widgets = { version = "==3.0.10" }
+kiwisolver = { version = "==1.4.5" }
+lazy-loader = { version = "==0.4" }
+lightly = { version = "==1.4.19" }
+lightly-utils = { version = "==0.0.2" }
+lightning-utilities = { version = "==0.11.2" }
+loguru = { version = "==0.6.0" }
+markdown = { version = "==3.6" }
+markupsafe = { version = "==2.1.5" }
+matplotlib = { version = "==3.9.0rc2" }
+matplotlib-inline = { version = "==0.1.7" }
+monai = { version = "==1.3.1rc3" }
+mpmath = { version = "==1.3.0" }
+multidict = { version = "==6.0.5" }
+networkx = { version = "==3.3" }
+nibabel = { version = "==5.2.1" }
+nptyping = { version = "==2.5.0" }
+numpy = { version = "==1.26.4" }
+nvidia-cublas-cu12 = { version = "==12.1.3.1" }
+nvidia-cuda-cupti-cu12 = { version = "==12.1.105" }
+nvidia-cuda-nvrtc-cu12 = { version = "==12.1.105" }
+nvidia-cuda-runtime-cu12 = { version = "==12.1.105" }
+nvidia-cudnn-cu12 = { version = "==8.9.2.26" }
+nvidia-cufft-cu12 = { version = "==11.0.2.54" }
+nvidia-curand-cu12 = { version = "==10.3.2.106" }
+nvidia-cusolver-cu12 = { version = "==11.4.5.107" }
+nvidia-cusparse-cu12 = { version = "==12.1.0.106" }
+nvidia-nccl-cu12 = { version = "==2.19.3" }
+nvidia-nvjitlink-cu12 = { version = "==12.4.127" }
+nvidia-nvtx-cu12 = { version = "==12.1.105" }
+omegaconf = { version = "==2.3.0" }
+opencv-python = { version = "==4.9.0.80" }
+packaging = { version = "==24.0" }
+pandas = { version = "==1.5.3" }
+parso = { version = "==0.8.4" }
+pexpect = { version = "==4.9.0" }
+pillow = { version = "==10.3.0" }
+pip = { version = "==23.3.2" }
+platipy = { version = "==0.4.1" }
+project-lighter = { version = "==0.0.2a19" }
+prompt-toolkit = { version = "==3.0.43" }
+proto-plus = { version = "==1.24.0.dev0" }
+protobuf = { version = "==4.25.3" }
+psutil = { version = "==5.9.8" }
+ptyprocess = { version = "==0.7.0" }
+pure-eval = { version = "==0.2.2" }
+pyasn1 = { version = "==0.6.0" }
+pyasn1-modules = { version = "==0.4.0" }
+pydantic = { version = "==1.10.13" }
+pydicom = { version = "==2.4.4" }
+pydicom-seg = { version = "==0.4.1" }
+pygments = { version = "==2.17.2" }
+pymedphys = { version = "==0.40.0" }
+pynetdicom = { version = "==2.0.2" }
+pynrrd = { version = "==1.0.0" }
+pyparsing = { version = "==3.1.2" }
+pyrsistent = { version = "==0.20.0" }
+python-dateutil = { version = "==2.9.0.post0" }
+python-dotenv = { version = "==1.0.1" }
+pytorch-lightning = { version = "==2.2.2" }
+pytz = { version = "==2024.1" }
+pyyaml = { version = "==6.0.1" }
+rapidfuzz = { version = "==3.8.1" }
+requests = { version = "==2.31.0" }
+rsa = { version = "==4.9" }
+rt-utils = { version = "==1.2.7" }
+scikit-image = { version = "==0.23.2rc1" }
+scikit-learn = { version = "==1.4.2" }
+scipy = { version = "==1.10.0" }
+seaborn = { version = "==0.13.2" }
+sentry-sdk = { version = "==2.0.0rc5" }
+setproctitle = { version = "==1.3.3" }
+simpleitk = { version = "==2.3.1" }
+six = { version = "==1.16.0" }
+smmap = { version = "==5.0.1" }
+stack-data = { version = "==0.6.3" }
+sympy = { version = "==1.12.1rc1" }
+tensorboard = { version = "==2.16.2" }
+tensorboard-data-server = { version = "==0.7.2" }
+termcolor = { version = "==2.4.0" }
+thedicomsort = { version = "==1.0.1" }
+threadpoolctl = { version = "==3.5.0" }
+tifffile = { version = "==2024.2.12" }
+tomlkit = { version = "==0.12.4" }
+torch = { version = "==2.2.2" }
+torchmetrics = { version = "==1.3.2" }
+torchvision = { version = "==0.17.2" }
+tornado = { version = "==6.4" }
+tqdm = { version = "==4.66.2" }
+traitlets = { version = "==5.14.2" }
+triton = { version = "==2.2.0" }
+typing-extensions = { version = "==4.11.0" }
+urllib3 = { version = "==2.2.1" }
+vtk = { version = "==9.3.20230807rc0" }
+wandb = { version = "==0.16.6" }
+wcwidth = { version = "==0.2.13" }
+werkzeug = { version = "==3.0.2" }
+wget = { version = "==3.2" }
+widgetsnbextension = { version = "==4.0.10" }
+yarl = { version = "==1.9.4" }
+
+[pypi-dependencies]
+med-imagetools = "*"

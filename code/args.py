@@ -21,3 +21,11 @@ def process_parser():
     parser.add_argument('--save_path', type=str, default=os.environ["DATA_PATH"], help='Path to the output file')
     return parser
 
+def readii_parser():
+    parser = ArgumentParser()
+    parser.add_argument('input_path_regex', type=str, help='Path to the input directory and regex pattern')
+    parser.add_argument('--mask_path_regex', type=str, help='Path to the mask and regex pattern')
+    parser.add_argument('--output_path', type=str, default=os.environ["ZOOM_PATH"], help='Path to the output directory')
+    parser.add_argument('--save_path', type=str, default=os.environ["DATA_PATH"], help='Path to the output file')
+    return parser
+

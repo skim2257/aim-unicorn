@@ -1,10 +1,9 @@
 library(mRMRe)
 library(dplyr)
 library(dotenv)
+library(survcomp)
 
-load_dot_env()
-set.thread.count(8)
-
+# prepares joined RADCURE dataframe
 get_data <- function(df_f, df_c, split = "training") {
     df_f <- df_f %>%
         mutate(patient_id = sapply(strsplit(image_path, "/"), function(x) sub(".nii.gz", "", tail(strsplit(x[length(x)], "_")[[1]], 1))))
@@ -26,60 +25,77 @@ get_data <- function(df_f, df_c, split = "training") {
   return(df)
 }
 
-args <- list(train_features_path = Sys.getenv("TRAIN_PATH"), 
-             clinical_path = Sys.getenv("SURV_PATH"))
+# removes patient_id and survival_time columns from clinical sheet to prepare for modeling
+prepare_features <- function(fmcib_df) {
+    return (fmcib_df %>% select(-patient_id, -survival_time))
+}
 
-# get fmcib features (df_f) and clinical data (df_c)
-df_f <- read.csv(args$train_features_path)
-df_c <- read.csv(args$clinical_path)
+# 
+run_mrmr <- function(fmcib_df, mRMR_fitter) {
+    dd                            <- mRMR.data(data=fmcib_df)
+    fmcib_classic                 <- mRMR_fitter(data = dd,   
+                                                  target_indices = c(1),
+                                                  feature_count = 30)
+    fmcib_indices                 <- solutions(fmcib_classic)
+    
+    return(fmcib_indices[[1]])
+}
 
-# get train and test sets
-fmcib_train    <- get_data(df_f, df_c, split = "training")
-fmcib_test     <- get_data(df_f, df_c, split = "test")
+main <- function() {
+    print("Starting...")
+    load_dot_env()
+    set.thread.count(8)
 
-# sanity check, output dimensions of train and test
-print(paste("train dim:", paste(dim(fmcib_train), collapse = " ")))
-print(paste("test dim:", paste(dim(fmcib_test), collapse = " ")))
+    # get fmcib features (df_f) and clinical data (df_c)
+    df_f                          <- read.csv(Sys.getenv("TRAIN_PATH"))
+    df_c                          <- read.csv(Sys.getenv("SURV_PATH"))
 
-# grab only the features + death column
-features_only <- subset(fmcib_train, select = -c(patient_id, survival_time))
-dd <- mRMR.data(data = features_only)
+    # get train and test sets
+    fmcib_train                   <- get_data(df_f, df_c, split = "training")
+    fmcib_test                    <- get_data(df_f, df_c, split = "test")
 
-# run the classic method
-fmcib_classic <- mRMR.classic(data = dd, 
-                              target_indices = c(1),
-                              feature_count = 30)
+    # sanity check, output dimensions of train and test
+    print("Data loaded!...")
+    print(paste("train dim:", paste(dim(fmcib_train), collapse = " ")))
+    print(paste("test dim:", paste(dim(fmcib_test), collapse = " ")))
 
-# get the indices of the best features
-fmcib_indices <- solutions(fmcib_classic)
+    # grab features + run mRMR
+    print("Preparing features...")
+    fmcib_all_feat                <- prepare_features(fmcib_train)
+    mrmr_idx                      <- run_mrmr(fmcib_all_feat, mRMR.classic)
 
-# grab the best features
-fmcib_mrmr    <- features_only[,c(fmcib_indices[[1]])]
-print(paste("good features:", fmcib_indices))
-print(dim(fmcib_mrmr))
+    # grab the best features
+    fmcib_train_X                 <- fmcib_all_feat[,c(mrmr_idx)]
 
-# adding endpoints back into the dataframe
-fmcib_mrmr$survival_time <- fmcib_train$survival_time
-fmcib_mrmr$death         <- fmcib_train$death
+    # adding endpoints back into the dataframe
+    fmcib_train_X$survival_time   <- fmcib_train$survival_time
+    fmcib_train_X$death           <- fmcib_train$death
 
-# train the CoxPH model
-model <- coxph(Surv(survival_time, death) ~ .,
-                 x=TRUE, y=TRUE, method="breslow", data=fmcib_mrmr)
-print(summary(model))
+    # train the CoxPH model
+    print("Training CoxPH model...")
+    model                         <- coxph(Surv(survival_time, death) ~ .,    
+                                           x=TRUE, 
+                                           y=TRUE, 
+                                           method="breslow", 
+                                           data=fmcib_train_X)
+    print(summary(model))
 
-# prepare test data for inference
-fmcib_test_features <- subset(fmcib_test, select = -c(patient_id, survival_time))
-fmcib_test_features <- fmcib_test_features[,c(fmcib_indices[[1]])]
+    # prepare test data for inference
+    fmcib_test_X                  <- prepare_features(fmcib_test)[,c(mrmr_idx)]
 
-# get the predictions
-fmcib_y_hat         <- predict(model, newdata=fmcib_test_features, type="risk")
+    print("Running inference...")
+    # CoxPH inference
+    fmcib_y_hat                   <- predict(model, newdata=fmcib_test_X, type="risk")
 
-# import survcomp + get concordance index
-library(survcomp)
-cindex <- concordance.index(fmcib_y_hat, 
-                            fmcib_test$survival_time, 
-                            fmcib_test$death,
-                            method = "noether", 
-                            alpha = 0.05, 
-                            alternative = "two.sided")
-print(cindex)
+    # get concordance index with 95K% CI and stuff
+    cindex <- concordance.index(fmcib_y_hat, 
+                                fmcib_test$survival_time, 
+                                fmcib_test$death,
+                                method = "noether", 
+                                alpha = 0.05, 
+                                alternative = "two.sided")
+    print(cindex)
+    print("Done!!")
+}
+
+main()

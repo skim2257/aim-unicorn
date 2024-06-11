@@ -2,7 +2,7 @@ from argparse import ArgumentParser
 import os
 import dotenv
 
-dotenv.load_dotenv()
+dotenv.load_dotenv()    
 
 def parser():
     parser = ArgumentParser()
@@ -23,9 +23,9 @@ def process_parser():
 
 def readii_parser():
     parser = ArgumentParser()
-    parser.add_argument('input_path_regex', type=str, help='Path to the input directory and regex pattern')
-    parser.add_argument('--mask_path_regex', type=str, help='Path to the mask and regex pattern')
+    parser.add_argument('base_path', type=str, help='Path to the base directory')
+    parser.add_argument('--input_format', type=str, help='Path to the input directory and regex pattern')
+    parser.add_argument('--mask_format', type=str, help='Path to the mask and regex pattern')
     parser.add_argument('--output_path', type=str, default=os.environ["ZOOM_PATH"], help='Path to the output directory')
     parser.add_argument('--save_path', type=str, default=os.environ["DATA_PATH"], help='Path to the output file')
     return parser
-

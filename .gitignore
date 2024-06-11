@@ -6,4 +6,8 @@ spec_file_root.txt
 .env
 .pixi/
 
+*/__pycache__# pixi environments
+.pixi
+*.egg-info
+
 */__pycache__

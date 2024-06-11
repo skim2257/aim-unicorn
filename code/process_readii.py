@@ -56,9 +56,12 @@ def get_row(ct_path, mask_path, output_path):
         img  = sitk.ReadImage(ct_path)
         mask = sitk.ReadImage(mask_path)
 
-        pat_id = ct_path.split("/")[-2]
+        if "PublicDatasets" in ct_path:
+            pat_id = ct_path.split("/")[-2]
+        else:
+            pat_id = ct_path.split("/")[-3]
         
-        assert img.GetSize() == mask.GetSize()
+        assert img.GetSize() == mask.GetSize(), (img.GetSize(), mask.GetSize())
 
         bbox     = find_bbox(mask)
         img_crop = crop_bbox(img, bbox, (50, 50, 50))
@@ -77,8 +80,8 @@ def main():
     #   - `image_path`: path of image
     #   - `coordX, coordY, coordZ`: coordinates of the center of GTVp
 
-    img_paths  = sorted(glob.glob(params.input_path_regex))
-    mask_paths = sorted(glob.glob(params.mask_path_regex))
+    img_paths  = sorted(glob.glob(os.path.join(params.base_path, "*", params.input_format)))
+    mask_paths = sorted(glob.glob(os.path.join(params.base_path, "*", params.mask_format)))
     
     if not os.path.exists(params.output_path):
         os.makedirs(params.output_path)
@@ -92,8 +95,6 @@ def main():
         if row is not None:
             df_new = pd.concat([df_new, pd.DataFrame([row], columns=["image_path", "coordX", "coordY", "coordZ"])], ignore_index=True)
     df_new.to_csv(params.save_path, index=False)
-    
-
 
 if __name__ == '__main__':
     main()
